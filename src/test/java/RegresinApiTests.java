@@ -42,13 +42,14 @@ public class RegresinApiTests {
     public void deleteUser() {
         int userId = 5;
 
-        given()
+
+        step("Make a DELETE user request", () ->   given()
                 .spec(Specs.request)
                 .when()
                 .delete("/users/" + userId)
                 .then()
                 .spec(Specs.responseNoContent)
-                .log().body();
+                .log().body());
     }
 
     @Test
