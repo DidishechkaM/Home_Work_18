@@ -1,4 +1,5 @@
 
+import io.restassured.response.ValidatableResponse;
 import models.UserData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,6 @@ public class RegresinApiTests {
 
     }
 
-    ;
 
     @Test
     @DisplayName("Successful user deletion")
@@ -55,17 +55,17 @@ public class RegresinApiTests {
     @DisplayName("Get list of users")
     public void getListOfUsers() {
         int perPage = 5;
-        step("Make request", () ->
-        given()
-                .spec(Specs.request)
-                .when()
-                .get("/users/?per_page=" + perPage)
-                .then()
-                .spec(Specs.responseOk)
-                .log().body());
+        ValidatableResponse responce = step("Make request", () ->
+                given()
+                        .spec(Specs.request)
+                        .when()
+                        .get("/users/?per_page=" + perPage)
+                        .then()
+                        .spec(Specs.responseOk)
+                        .log().body());
 
-        step("Verify response", () ->{
-                assertThat().body("data.findAll{it.email =~/.*?@reqres.in/}.email.flatten()",
+        step("Verify response", () ->
+                responce.assertThat().body("data.findAll{it.email =~/.*?@reqres.in/}.email.flatten()",
                         hasItem("emma.wong@reqres.in"))
         );
 
