@@ -64,7 +64,7 @@ public class RegresinApiTests {
                 .spec(Specs.responseOk)
                 .log().body());
 
-        step("Verify response", () ->
+        step("Verify response", () ->{
                 assertThat().body("data.findAll{it.email =~/.*?@reqres.in/}.email.flatten()",
                         hasItem("emma.wong@reqres.in"))
         );
